@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Eshop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function order() {
+                var productId = document.querySelector("#orderForm input:nth-child(1)").value;
+                var product = findProductTrWithId(productId);
+                var quan = document.querySelector("#orderForm input:nth-child(2)").value;
+
+                console.log(product);
+                console.log(quan);
+
+                if (!product) {
+                    alert("No such product");
+                    return;
+                }
+
+                if (isNaN(quan) || quan <= 0) {
+                    alert("Illegal quantity, please enter positive number");
+                    return;
+                }
+
+                var price = calculatePrice(product, quan);
+
+                document.querySelector("#postForm input:nth-child(2)").value = price;
+                document.querySelector("#postForm").submit();
+            }
+
+            function calculatePrice(product, count) {
+                return count * priceOfProduct(product);
+            }
+
+            function priceOfProduct(productTr) {
+                console.log("price " + productTr + " = " + productTr.children[2].textContent);
+                return productTr.children[2].textContent;
+            }
+
+            function findProductTrWithId(search) {
+                var trs = document.querySelectorAll("tr");
+                for (var i = 0; i < trs.length; i++) {
+                    var id = trs[i].firstElementChild.firstChild.textContent;
+                    if (id === search) {
+                        console.log("id " + id + " = " + trs[i]);
+                        return trs[i];
+                    }
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <h1>Welcome to Awesome-shop!</h1>
+        <hr/>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+            {PRODUCTS}
+        </table>
+        <hr/>
+        <form id="orderForm"action="javascript:order()">
+            Product ID:
+            <input type="number" name="id"/>
+            Quantity:
+            <input type="number" name="quan"/>
+            <input type="submit" value="Order"/>
+        </form>
+        <!-- this address would not be hardcoded,
+        it would be dynamically produced based on context -->
+        <form id="postForm" action="http://localhost:8080/" method="POST">
+            <!-- here we assume user is logged in somehow -->
+            <input type="hidden" name="user" value="3657"/>
+            <input type="hidden" name="cost"/>
+        </form>
+    </body>
+</html>
