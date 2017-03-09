@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Eshop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+        <h1>Welcome to Awesome-shop!</h1>
+        <hr/>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+            {PRODUCTS}
+        </table>
+        <hr/>
+        <!-- this address would not be hardcoded,
+        it would be dynamically produced based on context -->
+        <form id="orderForm"action="http://localhost:8080/" method="POST">
+            Product ID:
+            <input type="number" name="product"/>
+            Quantity:
+            <input type="number" name="quantity"/>
+            <!-- here we assume user is logged in somehow -->
+            <input type="hidden" name="user" value="3657"/>
+            <input type="submit" value="Order"/>
+        </form>
+    </body>
+</html>
